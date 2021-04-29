@@ -4,10 +4,11 @@ namespace RayTracer.Lights
 {
     public class PointLight : Light
     {
-        public PointLight(Vector3 position, Color color)
+        public PointLight(Vector3 position, Color specularColor,Color diffuseColor)
         {
             Position = position;
-            Color = color;
+            SpecularColor = specularColor;
+            DiffuseColor = diffuseColor;
         }
         public Vector3 Position { get; set; }
     }

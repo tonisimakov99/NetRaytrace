@@ -46,7 +46,7 @@ namespace RayTracer.Bodies
 
                 var p = new Vector3(t * ray.Direction.X + ray.Origin.X, t * ray.Direction.Y + ray.Origin.Y, t * ray.Direction.Z + ray.Origin.Z);
              
-                return new RaycastResult(this, (p-Position), p, ray);
+                return new RaycastResult(this, (p-Position).Normalized, p, ray);
             }
         }
     }

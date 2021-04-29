@@ -21,7 +21,6 @@ namespace RayTracer
         private int r;
         private int g;
         private int b;
-        private int a;
         public int R
         {
             get => r; 
@@ -52,18 +51,16 @@ namespace RayTracer
                 b = value;
             }
         }
-        public int A
-        {
-            get => a;
-            set
-            {
-                if (value < 0 || 255 < value)
-                    throw new Exception("0-255");
-                a = value;
-            }
-        }
+        public int Sum => R + G + B;
 
         public static Color operator *(Color color, float scalar)
+        {
+            return new Color(
+              (int)Math.Max(Math.Min(color.R * scalar, 255), 0),
+              (int)Math.Max(Math.Min(color.G * scalar, 255), 0),
+              (int)Math.Max(Math.Min(color.B * scalar, 255), 0));
+        }
+        public static Color operator *(float scalar, Color color)
         {
             return new Color(
               (int)Math.Max(Math.Min(color.R * scalar, 255), 0),

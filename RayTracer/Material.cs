@@ -2,17 +2,17 @@
 {
     public class Material
     {
-        public Material(float specularity, Color color, float opacity, float reflection)
+        public Material(float specularity, float shininess, Color diffuse, float ambientReflection)
         {
             Specularity = specularity;
-            Color = color;
-            Opacity = opacity;
-            Reflection = reflection;
+            Shininess = shininess;
+            Diffuse = diffuse;
+            AmbientReflection = ambientReflection;
         }
 
         public float Specularity { get; set; }
-        public Color Color { get; set; }
-        public float Opacity { get; set; }
-        public float Reflection { get; set; }
+        public float Shininess { get; set; }
+        public Color Diffuse { get; set; }
+        public float AmbientReflection { get; set; }
     }
 }

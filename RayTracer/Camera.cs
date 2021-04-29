@@ -102,16 +102,16 @@ namespace RayTracer
         {
             var result = scene.Ray(ray);
             if (result == null)
-                return Color.Black;
+                return Color.White;
 
-            var color = result.Body.Material.Color*CalculateLightness(result, maxLength);
+            var color = result.Body.Material.Diffuse*CalculateLightness(result, maxLength);
 
-            if (bounces < 0 || result.Body.Material.Reflection <= 0)
+            if (bounces < 0 || (Color.White - result.Body.Material.Diffuse).Sum <= 0)
                 return color;
 
             var reflect = ray.Direction.Reflect(result.Normal);
 
-            return color * (1 - result.Body.Material.Reflection) + RayTrace(new Ray(result.Position,reflect), bounces - 1, maxLength) * result.Body.Material.Reflection;
+            return color * (Color.White - result.Body.Material.Diffuse) + RayTrace(new Ray(result.Position,reflect), bounces - 1, maxLength) * (result.Body.Material.Diffuse);
         }
 
         private Color CalculateLightness(RaycastResult intersection, float maxLength)
@@ -119,24 +119,30 @@ namespace RayTracer
             var color = Color.Black;
             foreach (var light in scene.Lights)
             {
-                if (light is AmbientLight)
-                    color += light.Color;
+                if(light is AmbientLight)
+                {
+                    var ambient = light as AmbientLight;
+                    color += new Color(
+                        (int)((ambient.DiffuseColor.R + ambient.SpecularColor.R) / 2),
+                         (int)((ambient.DiffuseColor.G + ambient.SpecularColor.G) / 2),
+                          (int)((ambient.DiffuseColor.B + ambient.SpecularColor.B) / 2))*intersection.Body.Material.AmbientReflection;
+                }
 
                 if (light is PointLight)
                 {
-                    var raycastToLight = ((PointLight)light).Position - intersection.Position;
+                    var raycastToLight = (((PointLight)light).Position - intersection.Position).Normalized;
                     var result = scene.Ray(new Ray(intersection.Position, raycastToLight), maxLength);
                     if (result != null)
                         continue;
 
-                    color += light.Color*Math.Abs(intersection.Normal.Normalized*raycastToLight.Normalized);
+                    var reflected = raycastToLight.Reflect(intersection.Normal).Normalized;
+                    var toViewer = (position - intersection.Position).Normalized;
 
-                    //if (intersection.Body.Material.Specularity != -1)
-                    //{
-                    //    var reflect = raycastToLight.Reflect(intersection.Normal);
-                    //    if (reflect * intersection.Ray.Direction > 0)
-                    //        color += light.Color * (float)Math.Pow(reflect * intersection.Ray.Direction / (intersection.Normal.Length * intersection.Ray.Direction.Length), intersection.Body.Material.Specularity);
-                    //}
+                    var material = intersection.Body.Material;
+
+                    color += material.Diffuse * (raycastToLight * intersection.Normal) * light.DiffuseColor;
+
+                    color += material.Specularity * (float)Math.Pow(Math.Max(0,reflected * toViewer), material.Shininess) * light.SpecularColor;
                 }
             }
             return color;

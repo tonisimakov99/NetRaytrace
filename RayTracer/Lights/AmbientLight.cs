@@ -8,9 +8,10 @@ namespace RayTracer.Lights
 {
     public class AmbientLight:Light
     {
-        public AmbientLight(Color color)
+        public AmbientLight(Color specularColor,Color diffuseColor)
         {
-            Color = color;
+            SpecularColor = specularColor;
+            DiffuseColor = diffuseColor;
         }
     }
 }

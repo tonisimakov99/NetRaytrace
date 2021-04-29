@@ -8,6 +8,7 @@ namespace RayTracer.Lights
 {
     public class Light
     {
-        public Color Color { get; set; }
+        public Color SpecularColor { get; set; }
+        public Color DiffuseColor { get; set; }
     }
 }
