@@ -2,7 +2,7 @@
 using System.CodeDom;
 using System.IO;
 
-namespace PathTracer
+namespace RayTracer
 {
     public class Color
     {

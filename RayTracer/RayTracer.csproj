@@ -62,6 +62,7 @@
   <ItemGroup>
     <Compile Include="Bodies\Sphere.cs" />
     <Compile Include="Camera.cs" />
+    <Compile Include="Geometry\Vector2.cs" />
     <Compile Include="IMove.cs" />
     <Compile Include="IRotate.cs" />
     <Compile Include="Lights\AmbientLight.cs" />

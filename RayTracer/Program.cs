@@ -1,12 +1,12 @@
-﻿using PathTracer.Bodies;
-using PathTracer.Geometry;
-using PathTracer.Lights;
+﻿using RayTracer.Bodies;
+using RayTracer.Geometry;
+using RayTracer.Lights;
 using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 
 
-namespace PathTracer
+namespace RayTracer
 {
     class Program
     {
@@ -28,7 +28,7 @@ namespace PathTracer
 
             var camera = new Camera(new Vector3(0, -4.8f, 5f), scene, Quaternion.Get(Vector3.Right, (float)(Math.PI / 180) * -15));
 
-            var matrix = camera.Render(new RenderOptions(new Vector2Int(1920*5,1080*5),128, 0.0005f, 12, 2000));
+            var matrix = camera.Render(new RenderOptions(new Vector2Int(1920,1080),32, 12, 2000,new Vector2(1.92f/2,1.08f/2),1));
             var bitmap = new Bitmap(matrix.GetLength(0), matrix.GetLength(1));
             for (var i = 0; i != bitmap.Width; i++)
             {

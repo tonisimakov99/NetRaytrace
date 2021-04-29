@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 
-namespace PathTracer.Geometry
+namespace RayTracer.Geometry
 {
     public class Vector3
     {

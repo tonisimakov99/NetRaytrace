@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Runtime.Remoting.Activation;
 using System.Text;
@@ -29,7 +30,7 @@ namespace RayTracer
         }
         public Color[,] Render(RenderOptions options)
         {
-            var aspectRatio = (float)options.Resolution.X/(float)options.Resolution.Y;
+            var delta = options.ClipPlaneSize / options.Resolution;
             var matrix = new Color[options.Resolution.X, options.Resolution.Y];
             Enumerable.Range(0, options.ThreadCount).AsParallel().ForAll(
                 (z)=>
@@ -44,9 +45,9 @@ namespace RayTracer
                         for (var j = 0; j != options.Resolution.Y; j++)
                         {
                             var ray = new Ray(position, new Vector3(
-                                (i - (options.Resolution.X / 2)) * options.ViewCoef,
-                                1,
-                                (j - (options.Resolution.Y / 2)) * options.ViewCoef*-1)
+                                (i - (options.Resolution.X / 2)) * delta.X,
+                                options.DistanceToClipPlane,
+                                (j - (options.Resolution.Y / 2)) * delta.Y*-1)
                                 .RotateByQuaternion(rotation));
                             matrix[i, j] = RayTrace(ray, options.Bounces, options.MaxLength);
                         }
