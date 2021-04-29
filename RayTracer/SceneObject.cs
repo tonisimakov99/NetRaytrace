@@ -1,6 +1,6 @@
-﻿using PathTracer.Geometry;
+﻿using RayTracer.Geometry;
 
-namespace PathTracer
+namespace RayTracer
 {
     public class SceneObject
     {

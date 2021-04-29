@@ -1,4 +1,4 @@
-﻿namespace PathTracer.Geometry
+﻿namespace RayTracer.Geometry
 {
     public class Ray
     {

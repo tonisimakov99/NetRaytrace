@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RayTracer.Lights
+namespace RayTracer.Geometry
 {
-    public class Light
+    class Vector2
     {
-        public Color Color { get; set; }
     }
 }

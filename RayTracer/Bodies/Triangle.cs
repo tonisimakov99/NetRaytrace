@@ -1,7 +1,7 @@
-﻿using PathTracer.Geometry;
+﻿using RayTracer.Geometry;
 using System;
 
-namespace PathTracer.Bodies
+namespace RayTracer.Bodies
 {
     public class Triangle:SolidObject,IRotate,IMove
     {

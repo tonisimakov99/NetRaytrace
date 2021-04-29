@@ -1,5 +1,5 @@
-﻿using PathTracer.Geometry;
-using PathTracer.Lights;
+﻿using RayTracer.Geometry;
+using RayTracer.Lights;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -13,7 +13,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace PathTracer
+namespace RayTracer
 {
     public class Camera
     {

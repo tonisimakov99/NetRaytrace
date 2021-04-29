@@ -1,8 +1,8 @@
-﻿using PathTracer.Geometry;
+﻿using RayTracer.Geometry;
 using System;
 using System.Linq;
 
-namespace PathTracer.Bodies
+namespace RayTracer.Bodies
 {
     public class Parallelepiped : SolidObject, IRotate
     {

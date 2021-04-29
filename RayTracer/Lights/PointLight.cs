@@ -1,6 +1,6 @@
-﻿using PathTracer.Geometry;
+﻿using RayTracer.Geometry;
 
-namespace PathTracer.Lights
+namespace RayTracer.Lights
 {
     public class PointLight : Light
     {

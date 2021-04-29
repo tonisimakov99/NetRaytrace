@@ -1,4 +1,4 @@
-﻿namespace PathTracer
+﻿namespace RayTracer
 {
     public class Material
     {

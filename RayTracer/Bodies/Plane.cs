@@ -1,6 +1,6 @@
-﻿using PathTracer.Geometry;
+﻿using RayTracer.Geometry;
 
-namespace PathTracer.Bodies
+namespace RayTracer.Bodies
 {
     public class Plane:SolidObject,IRotate,IMove
     {

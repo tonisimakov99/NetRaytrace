@@ -1,4 +1,4 @@
-﻿using PathTracer.Geometry;
+﻿using RayTracer.Geometry;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PathTracer.Bodies
+namespace RayTracer.Bodies
 {
     public class Sphere : SolidObject
     {

@@ -1,7 +1,7 @@
-﻿using PathTracer.Bodies;
-using PathTracer.Geometry;
+﻿using RayTracer.Bodies;
+using RayTracer.Geometry;
 
-namespace PathTracer
+namespace RayTracer
 {
     public class RaycastResult
     {

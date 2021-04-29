@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace PathTracer.Geometry
+namespace RayTracer.Geometry
 {
     public class Quaternion
     {

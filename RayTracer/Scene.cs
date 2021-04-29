@@ -1,10 +1,10 @@
-﻿using PathTracer.Geometry;
+﻿using RayTracer.Geometry;
 using System.Collections.Generic;
 using System.Linq;
-using PathTracer.Lights;
-using PathTracer.Bodies;
+using RayTracer.Lights;
+using RayTracer.Bodies;
 
-namespace PathTracer
+namespace RayTracer
 {
     public class Scene
     {
