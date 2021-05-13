@@ -51,7 +51,6 @@ namespace RayTracer
                 b = value;
             }
         }
-        public int Sum => R + G + B;
 
         public static Color operator *(Color color, float scalar)
         {

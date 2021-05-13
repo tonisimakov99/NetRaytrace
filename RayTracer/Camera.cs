@@ -103,15 +103,15 @@ namespace RayTracer
             var result = scene.Ray(ray);
             if (result == null)
                 return Color.White;
+       
+            var color = CalculateLightness(result, maxLength);
 
-            var color = result.Body.Material.Diffuse*CalculateLightness(result, maxLength);
-
-            if (bounces < 0 || (Color.White - result.Body.Material.Diffuse).Sum <= 0)
+            if (bounces < 0)
                 return color;
 
             var reflect = ray.Direction.Reflect(result.Normal);
 
-            return color * (Color.White - result.Body.Material.Diffuse) + RayTrace(new Ray(result.Position,reflect), bounces - 1, maxLength) * (result.Body.Material.Diffuse);
+            return color + result.Body.Material.Reflect * RayTrace(new Ray(result.Position,reflect), bounces - 1, maxLength);
         }
 
         private Color CalculateLightness(RaycastResult intersection, float maxLength)
@@ -125,7 +125,7 @@ namespace RayTracer
                     color += new Color(
                         (int)((ambient.DiffuseColor.R + ambient.SpecularColor.R) / 2),
                          (int)((ambient.DiffuseColor.G + ambient.SpecularColor.G) / 2),
-                          (int)((ambient.DiffuseColor.B + ambient.SpecularColor.B) / 2))*intersection.Body.Material.AmbientReflection;
+                          (int)((ambient.DiffuseColor.B + ambient.SpecularColor.B) / 2)) * intersection.Body.Material.AmbientReflection;
                 }
 
                 if (light is PointLight)
@@ -142,10 +142,18 @@ namespace RayTracer
 
                     color += material.Diffuse * (raycastToLight * intersection.Normal) * light.DiffuseColor;
 
-                    color += material.Specularity * (float)Math.Pow(Math.Max(0,reflected * toViewer), material.Shininess) * light.SpecularColor;
+                    color += material.Specularity * Pow(Math.Max(0,reflected * toViewer), material.Shininess) * light.SpecularColor;
                 }
             }
             return color;
+        }
+        private Color Pow(float x, Color y)
+        {
+            return new Color(
+                (int)Math.Pow(x, y.R),
+                 (int)Math.Pow(x, y.G),
+                 (int)Math.Pow(x, y.B)
+                );
         }
     }
 }

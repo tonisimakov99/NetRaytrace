@@ -5,7 +5,7 @@ namespace RayTracer.Bodies
 {
     public class Triangle:SolidObject,IRotate,IMove
     {
-        private bool isLeftNormal = true;
+        private bool isLeftNormal = false;
         public Vector3 Normal
         {
             get
