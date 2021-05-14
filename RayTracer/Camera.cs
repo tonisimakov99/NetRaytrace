@@ -1,4 +1,5 @@
-﻿using RayTracer.Geometry;
+﻿using RayTracer.Bodies;
+using RayTracer.Geometry;
 using RayTracer.Lights;
 using System;
 using System.Collections.Concurrent;
@@ -49,7 +50,7 @@ namespace RayTracer
                                 options.DistanceToClipPlane,
                                 (j - (options.Resolution.Y / 2)) * delta.Y*-1)
                                 .RotateByQuaternion(rotation));
-                            matrix[i, j] = RayTrace(ray, options.Bounces, options.MaxLength);
+                            matrix[i, j] = RayTrace(ray,options.RefractBounces, options.ReflectBounces, options.MaxLength);
                         }
                     }
                 });
@@ -98,7 +99,7 @@ namespace RayTracer
         //    return Color.Black;
         //}
 
-        private Color RayTrace(Ray ray, int bounces, float maxLength)
+        private Color RayTrace(Ray ray, int refractBounces, int reflectBounces, float maxLength)
         {
             var result = scene.Ray(ray);
             if (result == null)
@@ -106,12 +107,42 @@ namespace RayTracer
        
             var color = CalculateLightness(result, maxLength);
 
-            if (bounces < 0)
+            if (reflectBounces < 0)
                 return color;
 
             var reflect = ray.Direction.Reflect(result.Normal);
+            var r = 1/result.Body.Material.RefractionIndex;
+            var cos1 = -1 * result.Normal * ray.Direction.Normalized;
+            var sin2 = r * (float)Math.Sqrt(1 - cos1 * cos1);
+            var cos2 = (float)Math.Sqrt(1 - sin2 * sin2);
+            var refractIn = r * ray.Direction.Normalized + (r * cos1 - cos2)*result.Normal;
 
-            return color + result.Body.Material.Reflect * RayTrace(new Ray(result.Position,reflect), bounces - 1, maxLength);
+            if (result.Body.Material.Reflect != null)
+                color += result.Body.Material.Reflect * RayTrace(new Ray(result.Position, reflect),refractBounces, reflectBounces - 1, maxLength);
+
+            if (result.Body.Material.Refract != null && refractBounces >= 0)
+                color += result.Body.Material.Refract * Refract(result.Body, new Ray(result.Position, refractIn), refractBounces - 1, reflectBounces - 1, maxLength);
+            return color;
+        }
+
+        private Color Refract(SolidObject body, Ray refractIn, int refractBounces, int reflectBounces, float maxLength)
+        {
+            var result = scene.Ray(refractIn, maxLength);
+            if (result == null)
+                return Color.White;
+            if (result.Body != body)
+                return Color.Black;
+            else
+            {
+                var r = result.Body.Material.RefractionIndex;
+                var cos1 = (float)Math.Max(1, -1 * result.Normal * refractIn.Direction.Normalized);
+    
+                var sin2 = (float)Math.Max(1,r * (float)Math.Sqrt(1 - cos1 * cos1));
+
+                var cos2 = (float)Math.Max(1, (float)Math.Sqrt(1 - sin2 * sin2));
+                var refractOut = r * refractIn.Direction.Normalized + (r * cos1 - cos2) * result.Normal;
+                return RayTrace(new Ray(result.Position, refractOut), refractBounces, reflectBounces - 1, maxLength);
+            }
         }
 
         private Color CalculateLightness(RaycastResult intersection, float maxLength)

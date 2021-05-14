@@ -5,10 +5,11 @@ namespace RayTracer
 {
     public class RenderOptions
     {
-        public RenderOptions(Vector2Int resolution, int bounces, int threadCount, float maxLength, Vector2 clipPlaneSize, float distanceToClipPlane)
+        public RenderOptions(Vector2Int resolution, int reflectBounces, int refractBounces, int threadCount, float maxLength, Vector2 clipPlaneSize, float distanceToClipPlane)
         {
             Resolution = resolution;
-            Bounces = bounces;
+            ReflectBounces = reflectBounces;
+            RefractBounces = refractBounces;
             ThreadCount = threadCount;
             MaxLength = maxLength;
             ClipPlaneSize = clipPlaneSize;
@@ -16,7 +17,8 @@ namespace RayTracer
         }
 
         public Vector2Int Resolution { get; set; }
-        public int Bounces { get; set; }
+        public int ReflectBounces { get; set; }
+        public int RefractBounces { get; set; }
         public int ThreadCount { get; set; }
         public float MaxLength { get; set; }
         public Vector2 ClipPlaneSize { get; set; }
