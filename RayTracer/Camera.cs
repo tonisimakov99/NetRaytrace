@@ -136,24 +136,16 @@ namespace RayTracer
                         continue;
 
                     var reflected = raycastToLight.Reflect(intersection.Normal).Normalized;
-                    var toViewer = (position - intersection.Position).Normalized;
-
+                    var toViewer = (intersection.Position - position).Normalized;
+                
                     var material = intersection.Body.Material;
 
                     color += material.Diffuse * (raycastToLight * intersection.Normal) * light.DiffuseColor;
 
-                    color += material.Specularity * Pow(Math.Max(0,reflected * toViewer), material.Shininess) * light.SpecularColor;
+                    color += material.Specularity * (float)Math.Pow(Math.Max(0,reflected * toViewer), material.Shininess) * light.SpecularColor;
                 }
             }
             return color;
-        }
-        private Color Pow(float x, Color y)
-        {
-            return new Color(
-                (int)Math.Pow(x, y.R),
-                 (int)Math.Pow(x, y.G),
-                 (int)Math.Pow(x, y.B)
-                );
         }
     }
 }
